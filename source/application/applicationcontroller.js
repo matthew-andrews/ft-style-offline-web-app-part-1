@@ -21,7 +21,9 @@ APP.applicationController = (function () {
             if (navigator && navigator.onLine === false) {
                 offlineWarning();
             } else {
-                APP.articlesController.synchronizeWithServer();
+                APP.articlesController.synchronizeWithServer(function failureCallback() {
+                    alert("This feature is not available offline");
+                });
             }
         });
     }
@@ -66,7 +68,7 @@ APP.applicationController = (function () {
         });
 
         if (storeResources) {
-          localStorage.resources = JSON.stringify(resources);
+            localStorage.resources = JSON.stringify(resources);
         }
     }
 
