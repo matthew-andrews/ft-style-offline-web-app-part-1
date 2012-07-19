@@ -18,7 +18,7 @@ APP.applicationController = (function () {
         $('#refreshButton').click(function () {
 
             // If the user is offline, don't bother trying to synchronize
-            if (navigator.hasOwnProperty("onLine") && !navigator.onLine) {
+            if (navigator && navigator.onLine === false) {
                 offlineWarning();
             } else {
                 APP.articlesController.synchronizeWithServer();

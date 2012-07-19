@@ -36,7 +36,7 @@
 				}
 
 				// If we know the device is offline, don't try to load new resources
-				if (navigator.hasOwnProperty("onLine") && !navigator.onLine) {
+				if (navigator && navigator.onLine === false) {
 					startWithOfflineResources();
 
 				// Otherwise, download resources, eval them, if successful push them into local storage.
