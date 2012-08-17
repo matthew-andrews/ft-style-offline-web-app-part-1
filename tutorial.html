@@ -177,7 +177,7 @@ $css = '';
 $css = $css . file_get_contents('../../css/global.css');
 $output['css'] = $css;
 
-// Encode with JSON (PHP 5.2.0+) &amp; output the resources
+// Encode with JSON (PHP 5.2.0+) and output the resources
 echo json_encode($output);
 [/php]
 
@@ -232,10 +232,9 @@ This is where other tutorials will tell you to edit your apache config file to a
 header("Content-Type: text/cache-manifest");
 ?>
 CACHE MANIFEST
-# 2012-07-14 v1
+# 2012-07-14 v2
+jquery.min.js
 /
-/jquery.min.js
-
 NETWORK:
 *
 [/php]
@@ -363,7 +362,7 @@ APP.templates = (function () {
             return '<p><i>No articles have been found, maybe you haven\'t <b>refreshed the news</b>?</i></p>';
         }
         for (i = 0, l = articles.length; i < l; i = i + 1) {
-            output = output + '<li><a href="/#' + articles[i].id + '"><b>' + articles[i].headline + '</b><br />By ' + articles[i].author + ' on ' + articles[i].date + '</a></li>';
+            output = output + '<li><a href="#' + articles[i].id + '"><b>' + articles[i].headline + '</b><br />By ' + articles[i].author + ' on ' + articles[i].date + '</a></li>';
         }
         return '<ul>' + output + '</ul>';
     }
@@ -448,13 +447,13 @@ Now create the articles' controller.
 APP.articlesController = (function () {
     'use strict';
 
-    function showArticleList(id, successCallback) {
+    function showArticleList() {
         APP.article.selectBasicArticles(function (articles) {
             $("#headlines").html(APP.templates.articleList(articles));
         });
     }
 
-    function showArticle(id, successCallback) {
+    function showArticle(id) {
         APP.article.selectFullArticle(id, function (article) {
             $("#body").html(APP.templates.article(article));
         });
@@ -463,7 +462,7 @@ APP.articlesController = (function () {
     function synchronizeWithServer(failureCallback) {
         $.ajax({
             dataType: 'json',
-            url: '/api/articles',
+            url: 'api/articles',
             success: function (articles) {
               APP.article.deleteArticles(function () {
                   APP.article.insertArticles(articles, function () {
@@ -519,18 +518,18 @@ $xpath = '/rss/channel/item';
 $items = $rss->xpath($xpath);
 
 if ($items) {
-	$output = array();
-	foreach ($items as $id => $item) {
+  $output = array();
+  foreach ($items as $id => $item) {
 
-		// This will be encoded as an object, not an array, by json_encode
-		$output[] = array(
-			'id' => $id + 1,
-			'headline' => strval($item->title),
-			'date' => strval($item->pubDate),
-			'body' => strval(strip_tags($item->description,'<p><br>')),
-			'author' => strval($item->children('http://purl.org/dc/elements/1.1/')->creator)
-		);
-	}
+    // This will be encoded as an object, not an array, by json_encode
+    $output[] = array(
+      'id' => $id + 1,
+      'headline' => strval($item->title),
+      'date' => strval($item->pubDate),
+      'body' => strval(strip_tags($item->description,'<p><br>')),
+      'author' => strval($item->children('http://purl.org/dc/elements/1.1/')->creator)
+    );
+  }
 }
 
 echo json_encode($output);
