@@ -16,7 +16,7 @@ APP.articlesController = (function () {
     function synchronizeWithServer(failureCallback) {
         $.ajax({
             dataType: 'json',
-            url: '/api/articles',
+            url: 'api/articles',
             success: function (articles) {
                 APP.article.deleteArticles(function () {
                     APP.article.insertArticles(articles, function () {
