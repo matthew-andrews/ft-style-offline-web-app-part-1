@@ -17,7 +17,7 @@ We are going to make a simple <a href="http://en.wikipedia.org/wiki/RSS">RSS fee
   <li>It will support the iPhone, iPad and iPod touch (and any other platforms you get for free with this support, which includes: Blackberry Playbook, Chrome for Android, Android Browser, Opera Mobile as well as Chrome, Opera and Safari on Desktop).</li>
 </ul>
 
-This demo will use PHP and jQuery because we want the best combination of ubiquity and brevity for demo purposes, but in practice you may be better off making different choices, particularly when it comes to jQuery (consider jquip or zepto instead, or just write straight Javascript as we do at FT Labs).
+This demo will use PHP and jQuery because we want the best combination of ubiquity and brevity for demo purposes.
 
 <strong>Introducing the application cache</strong>
 
@@ -45,6 +45,8 @@ However, as is widely documented on the internet, <a href="http://www.alistapart
     </ul>
   </li>
 </ul>
+
+31/08/2012 Edit: <a href="http://labs.ft.com/2012/08/fixing-app-cache/">Read about our efforts to fix app cache!</a>
 
 <strong>So this is what we do instead</strong>
 
@@ -89,6 +91,7 @@ Start by creating the bootstrap html file.
 <!DOCTYPE html>
 <html lang="en" manifest="offline.manifest.php">
     <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
         <script type="text/javascript" src="jquery.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
@@ -118,7 +121,7 @@ Start by creating the bootstrap html file.
                       resources = JSON.parse(localStorage.resources);
                       startWithResources(resources, false);
 
-                  // Otherwise, apologize and let the user know
+                  // Otherwise, apologize and let the user know the app cannot start
                   } else {
                       alert(APP_START_FAILED);
                   }
@@ -160,7 +163,7 @@ To summarise, this file does the following:-
 
 
 <strong>/api/resources/index.php</strong>
-Now to make the server side response to <strong>api/resources/</strong> (which we requested on #59 of the previous file, /index.html):-
+Now to make the server side response to <strong>api/resources/</strong> (which we requested on #47 of the previous file, /index.html):-
 [php]
 <?php
 // Concatenate the files in the /source/ directory
@@ -222,7 +225,7 @@ APP.applicationController = (function () {
 }());
 [/js]
 
-<strong>/manifest.appcache.php</strong>
+<strong>/offline.appcache.php</strong>
 Finally, <a href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">the appcache manifest</a>.
 
 This is where other tutorials will tell you to edit your apache config file to add the content-type for *.appcache. You would be right to do this but I want this demo web app to be as portable as possible and work by simply uploading the files to any standard PHP server without any .htaccess or server configuration file hassle, so I will give the file a *.php extension and set the content type by using the PHP <a href="http://php.net/manual/en/function.header.php">header function</a> instead. The *.appcache extension is a recommendation, not a requirement, so we will get away with doing this.
@@ -689,3 +692,5 @@ Clearly our demo web app leaves a lot of room for improvement. However, by organ
 Finally, if you think you'd like to work on this sort of thing and live (or would like to live) in London, <a href="/jobs">we're hiring!</a>
 
 <span style="font-size: 80%; line-height: 1em;">MA - @andrewsmatt on <a href="http://twitter.com/andrewsmatt">Twitter</a> &amp; <a href="http://weibo.com/andrewsmatt">Weibo</a>.</span>
+
+<p align="right"><strong><a href="http://labs.ft.com/2012/09/ft-style-web-app-on-firefox-and-ie6-to-ie10/">Continue to part 2 - Going cross platform with an FT style web app <span class="meta-nav">→</span></a></strong></p>
