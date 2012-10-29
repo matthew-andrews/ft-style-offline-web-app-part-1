@@ -225,7 +225,7 @@ APP.applicationController = (function () {
 }());
 [/js]
 
-<strong>/offline.appcache.php</strong>
+<strong>/offline.manifest.php</strong>
 Finally, <a href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">the appcache manifest</a>.
 
 This is where other tutorials will tell you to edit your apache config file to add the content-type for *.appcache. You would be right to do this but I want this demo web app to be as portable as possible and work by simply uploading the files to any standard PHP server without any .htaccess or server configuration file hassle, so I will give the file a *.php extension and set the content type by using the PHP <a href="http://php.net/manual/en/function.header.php">header function</a> instead. The *.appcache extension is a recommendation, not a requirement, so we will get away with doing this.
