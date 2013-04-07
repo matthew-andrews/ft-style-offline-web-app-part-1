@@ -49,7 +49,7 @@ APP.applicationController = (function () {
 
 
     // This is to our webapp what main() is to C, $(document).ready is to jQuery, etc
-    function start(resources, start) {
+    function start(resources, storeResources) {
         APP.database.open(function () {
 
             // Listen to the hash tag changing
