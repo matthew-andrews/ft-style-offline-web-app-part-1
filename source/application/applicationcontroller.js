@@ -46,29 +46,49 @@ APP.applicationController = (function () {
             showHome();
         }
     }
+    
+    function initialize() {
+
+        // Listen to the hash tag changing
+        $(window).bind("hashchange", route);
+
+        // Inject CSS Into the DOM
+        $("head").append("<style>" + resources.css + "</style>");
+
+        // Create app elements
+        $("body").html(APP.templates.application());
+
+        // Remove our loading splash screen
+        $("#loading").remove();
+
+        route();
+    }
 
 
     // This is to our webapp what main() is to C, $(document).ready is to jQuery, etc
     function start(resources, storeResources) {
-        APP.database.open(function () {
+    	var iOSPrivateBrowsing = false;
+    	
+    	// Try to detect whether iOS private browsing mode is enabled
+        try {
+        	localStorage.test = '';
+        	localStorage.removeItem('item');
+        } catch (exception) {
+            if (exception.code === 22) {
+            	iOSPrivateBrowsing = true;
+            }
+        }
 
-            // Listen to the hash tag changing
-            $(window).bind("hashchange", route);
+		// If private browsing mode is enabled don't try to
+		// use localstorage offline databases
+        if (iOSPrivateBrowsing) {
+			return initialize();
+        }
 
-            // Inject CSS Into the DOM
-            $("head").append("<style>" + resources.css + "</style>");
-
-            // Create app elements
-            $("body").html(APP.templates.application());
-
-            // Remove our loading splash screen
-            $("#loading").remove();
-
-            route();
-        });
+        APP.database.open(initialize);
 
         if (storeResources) {
-            localStorage.resources = JSON.stringify(resources);
+			localStorage.resources = JSON.stringify(resources);
         }
     }
 
