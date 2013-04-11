@@ -592,9 +592,7 @@ APP.applicationController = (function () {
             if (navigator && navigator.onLine === false) {
                 offlineWarning();
             } else {
-                APP.articlesController.synchronizeWithServer(function () {
-                    alert("This feature is not available offline");
-                });
+                APP.articlesController.synchronizeWithServer(offlineWarning);
             }
         });
     }
