@@ -21,9 +21,7 @@ APP.applicationController = (function () {
             if (navigator && navigator.onLine === false) {
                 offlineWarning();
             } else {
-                APP.articlesController.synchronizeWithServer(function failureCallback() {
-                    alert("This feature is not available offline");
-                });
+                APP.articlesController.synchronizeWithServer(offlineWarning);
             }
         });
     }
