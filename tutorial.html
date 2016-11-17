@@ -91,7 +91,7 @@ Start by creating the bootstrap html file.
 <!DOCTYPE html>
 <html lang="en" manifest="offline.manifest.php">
     <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <script type="text/javascript" src="jquery.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
@@ -350,7 +350,7 @@ APP.templates = (function () {
     'use strict';
 
     function application() {
-        return '<div id="window"><div id="header"><h1>Guardian Technology News</h1></div><div id="body"></div></div>';
+        return '<div id="window"><div id="header"><h1>FT Tech Blog</h1></div><div id="body"></div></div>';
     }
 
     function home() {
@@ -510,13 +510,10 @@ The article controller will be responsible for:-
 <strong>/api/articles/index.php</strong>
 This file will download then parse an RSS feed (<a href="http://www.w3schools.com/xpath/">using xpath</a>). It will then strip out all the HTML tags from each article's body (except for &lt;p&gt;'s and &lt;br&gt;'s) and output this information using <code>json_encode</code>.
 
-We've chosen the Guardian Technology feed because it contains the full articles, rather than just headlines.
-
 [php]
 <?php
 // Convert RSS feed to JSON, stripping out all but basic HTML
-// Using Guardian Technology feed as it contains the full content
-$rss = new SimpleXMLElement(file_get_contents('http://www.guardian.co.uk/technology/mobilephones/rss'));
+$rss = new SimpleXMLElement(file_get_contents('http://feeds2.feedburner.com/ft/tech-blog'));
 $xpath = '/rss/channel/item';
 $items = $rss->xpath($xpath);
 
